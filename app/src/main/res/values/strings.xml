@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Beta1</string>
+
+    <!-- HomeActivity Start-->
+
+        <!-- HA Buttons Start -->
+        <string name="startButton">Start</string>
+        <string name="joinButton">Join</string>
+        <!-- HA Buttons End -->
+
+    <!-- HomeActivity End -->
+</resources>
