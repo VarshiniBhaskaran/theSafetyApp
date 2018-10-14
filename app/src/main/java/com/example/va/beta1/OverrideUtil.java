@@ -1,6 +1,9 @@
 package com.example.va.beta1;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -16,13 +19,17 @@ public class OverrideUtil extends AppCompatActivity {
 
     private static Logger LOGGER = Logger.getLogger("OverrideUtil");
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+    public boolean onKeyDown(Activity activity, Context context, int keyCode, KeyEvent event) {
         if (KeyEvent.KEYCODE_VOLUME_DOWN == event.getKeyCode()) {
-            IntentUtil.processIntent(getApplicationContext(),AppConstants.INTENT_MAKE_CALL,"+919940660797");
+            IntentUtil.processIntent(context, AppConstants.INTENT_MAKE_CALL,fetchNumbersForAction(activity));
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
+    private String fetchNumbersForAction(Activity activity){
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getString("Mobile", "");
+    }
 }

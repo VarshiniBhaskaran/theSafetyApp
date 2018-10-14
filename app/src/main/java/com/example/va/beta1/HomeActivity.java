@@ -1,6 +1,8 @@
 package com.example.va.beta1;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.va.beta1.database.DBUtil;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,10 +42,12 @@ public class HomeActivity extends AppCompatActivity {
             LOGGER.log(Level.SEVERE,"::: Error in init :::: ",e);
         }
     }
-    private void buttonAction(View view)
+    public void buttonAction(View view)
     {
         EditText edit = (EditText)findViewById(R.id.mobileNumber);
         String mobile = edit.getText().toString(),toastText = AppConstants.FAILURE;
+        poplulateAndSetActions(mobile);
+
         Boolean isUpdated = false;
         if(view != null)
         {
@@ -56,4 +64,19 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),toastText,Toast.LENGTH_LONG).show();
         }
     }
+
+    private void poplulateAndSetActions(String mobile)
+    {
+        Map<String,String> keyValueMap = new HashMap<>();
+        keyValueMap.put("Mobile" , mobile);
+        DBUtil db = new DBUtil();
+        db.storeInSharedPreferences(this, keyValueMap);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+       OverrideUtil override = new OverrideUtil();
+       return override.onKeyDown(this, getApplicationContext(), keyCode,event);
+    }
 }
+

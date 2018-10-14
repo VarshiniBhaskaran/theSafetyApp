@@ -24,7 +24,8 @@ public class IntentUtil extends Application {
                 switch (intentType) {
                     case AppConstants.INTENT_MAKE_CALL:
                         intent = new Intent(Intent.ACTION_CALL);
-                        intent.setData(Uri.parse("tel:"+action));
+                        intent.setData(Uri.parse("tel:"+  action.split(",")[0]));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         break;
                     default:
                         break;
@@ -32,6 +33,7 @@ public class IntentUtil extends Application {
             }
             if(intent != null)
             {
+
                 context.startActivity(intent);
             }
         }catch(Exception e)
