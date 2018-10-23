@@ -1,23 +1,18 @@
 package com.example.va.beta1;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.va.beta1.database.DBUtil;
+import com.example.va.beta1.utils.OverrideUtil;
+import com.example.va.beta1.utils.PermissionsUtil;
+import com.example.va.beta1.constants.AppConstants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,35 +37,28 @@ public class HomeActivity extends AppCompatActivity {
             LOGGER.log(Level.SEVERE,"::: Error in init :::: ",e);
         }
     }
+
     public void buttonAction(View view)
     {
         EditText edit = (EditText)findViewById(R.id.mobileNumber);
-        String mobile = edit.getText().toString(),toastText = AppConstants.FAILURE;
-        poplulateAndSetActions(mobile);
-
-        Boolean isUpdated = false;
-        if(view != null)
-        {
-            switch(view.getId())
+        String mobile = edit.getText().toString(), toastText = AppConstants.FAILURE;
+        try {
+            if(view != null)
             {
-                case R.id.setButton:
-                    break;
-                default:break;
+                switch(view.getId()) {
+                    case R.id.setButton:
+                        toastText = ActionHandler.configureActionForKey(this, mobile);
+                        break;
+                    default:
+                        break;
+                }
             }
-            if(isUpdated)
-            {
-               toastText = AppConstants.SUCCESS;
-            }
-            Toast.makeText(getApplicationContext(),toastText,Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            toastText = toastText.equalsIgnoreCase(AppConstants.SUCCESS) ? AppConstants.ACTION_CONFIGURED : AppConstants.ACTION_FAILURE;
+            Toast.makeText(getApplicationContext(),toastText, Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void poplulateAndSetActions(String mobile)
-    {
-        Map<String,String> keyValueMap = new HashMap<>();
-        keyValueMap.put("Mobile" , mobile);
-        DBUtil db = new DBUtil();
-        db.storeInSharedPreferences(this, keyValueMap);
     }
 
     @Override
