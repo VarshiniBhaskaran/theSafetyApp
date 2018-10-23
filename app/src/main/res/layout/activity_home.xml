@@ -14,7 +14,7 @@
         android:ems="10"
         android:inputType="number"
         android:orientation="vertical"
-        android:text="Enter Mobile Number"
+        android:hint="Enter Mobile Number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

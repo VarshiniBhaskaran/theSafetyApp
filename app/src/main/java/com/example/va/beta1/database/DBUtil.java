@@ -5,17 +5,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.va.beta1.R;
+import com.example.va.beta1.constants.AppConstants;
 
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DBUtil extends AppCompatActivity {
+public class DBUtil extends AppCompatActivity
+{
     private static Logger LOGGER = Logger.getLogger("DBUtil");
 
-    public  void storeInSharedPreferences(Activity activity, Map<String,String> values) {
+    public String storeInSharedPreferences(Activity activity, Map<String,String> values) {
         try{
             SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -25,8 +25,10 @@ public class DBUtil extends AppCompatActivity {
             }
 
             editor.commit();
+            return AppConstants.SUCCESS;
         }catch(Exception e){
-            LOGGER.log(Level.INFO,"exception-",e);
+            LOGGER.log(Level.INFO,":::: Exception in storeInSharedPreferences :::: ",e);
+            return AppConstants.FAILURE;
         }
 
     }
